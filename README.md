@@ -1,2 +1,2 @@
 # CrosswordSolver
- Website that solves crossword puzzles using the Llama3 LLM.
+ Program that solves crossword puzzles using the Llama3 LLM.
