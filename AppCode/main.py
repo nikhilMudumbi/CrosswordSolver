@@ -33,7 +33,8 @@ def correctLetters(word, existingLetters):
     return True
 
 def getAnswers(clue, size, number, sensitivity, existingLetters):
-
+    ''' gets answers for a given question, given existing letters
+    by asking the LLM repeatedly and looking for common answers '''
     pluralTest = "Is the phrase '" + clue + "' singular or plural? Just give one of those two words as the answer"
     response = ollama.chat(model='llama3', messages=[
         {
@@ -73,6 +74,7 @@ def getAnswers(clue, size, number, sensitivity, existingLetters):
     return ""
 
 def print_final_grid():
+    ''' for debugging purposes '''
     for i in range(M):
         row = ""
         for j in range(N):
@@ -83,9 +85,10 @@ def print_final_grid():
         print(row)
 
 def step(number, sensitivity):
+    ''' makes one pass through the grid, filling in each question based on
+    common answers from LLM and existing letters'''
     count = 0
     for q in questions:
-        print("question count ==", count)
         count += 1
         existingLetters = []
         for i in range(q.size):
@@ -102,9 +105,14 @@ def step(number, sensitivity):
 def initialize():
     questionExtraction()
 
+
 def stepSolver():
+    ''' one method of solving that makes four passes through
+    the grid and iteratively fills in, demanding less accuracy
+    each time '''
     step(5, 5)
     step(5, 3)
+    step(5, 1)
     step(5, 1)
     return grid
 

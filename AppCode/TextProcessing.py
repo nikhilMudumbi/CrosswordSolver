@@ -6,7 +6,6 @@ from AppCode.Question import Question
 def accessQuestions(pdf_path, questionPositions):
     text = reader.extract_text(pdf_path)
     textList = text.splitlines()
-    print(textList)
 
     questionList = []
 
@@ -14,8 +13,6 @@ def accessQuestions(pdf_path, questionPositions):
 
     acrossPos = textList.index("ACROSS")
     downPos = textList.index("DOWN")
-
-    print(acrossPos)
 
     currQuestion = ""
     index = 0
@@ -51,8 +48,6 @@ def accessQuestions(pdf_path, questionPositions):
                 continue
             if currQuestion != "":
                 q = questionPositions[index-1]
-                if index == 8:
-                    print([q[0], q[1]])
                 questionList.append(Question(currQuestion, index, q[3], False, [q[0], q[1]]))
             index = int(line[:spaceIndex])
             currQuestion = line[(spaceIndex + 1):]

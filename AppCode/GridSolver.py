@@ -1,3 +1,13 @@
+'''
+
+this file implements many potential solving algorithms;
+only step and getAnswers are currently implemented -- I settled on a simpler
+iterative approach that relies on treating the answers from Llama3
+as an IID distribution (through specific prompts), and using frequency of words
+as an indicator of accuracy.
+
+'''
+
 import numpy as np
 from langchain_openai import ChatOpenAI
 from ImageProcessing import make_grid
@@ -84,7 +94,6 @@ def AC3(questionList: List[Question]):
 
 def generatePossibleWords(questionList: List[Question]):
     for i, q in enumerate(questionList):
-        print("index, ", i)
         text = ("Give me 10 different answers to the crossword clue \""
                 + q.question + "\". Each answer should have exactly " + str(q.size) + " letters. Put each answer on a separate line")
         response = ollama.chat(model='llama3', messages=[
@@ -174,7 +183,6 @@ def correctLetters(word, existingLetters):
     return True
 
 def getAnswers(clue, size, number, sensitivity, existingLetters):
-
     pluralTest = "Is the phrase '" + clue + "' singular or plural? Just give one of those two words as the answer"
     response = ollama.chat(model='llama3', messages=[
         {
@@ -200,7 +208,6 @@ def getAnswers(clue, size, number, sensitivity, existingLetters):
 
     translator = str.maketrans('', '', string.punctuation + ' ')
     for i in range(number):
-        print(i)
         response = ollama.chat(model='llama3', messages=[
             {
                 'role': 'user',
@@ -217,7 +224,6 @@ def getAnswers(clue, size, number, sensitivity, existingLetters):
 def step(number, sensitivity):
     count = 0
     for q in questions:
-        print("question count ==", count)
         count += 1
         existingLetters = []
         for i in range(q.size):
@@ -240,8 +246,6 @@ def oneStep():
     submittingText = text
     answers = []
     for i in range(len(currQuestions)):
-        print("i ==", i)
-        #print(currQuestions[i][1].size)
         if i % 1 == 0 and i > 0:
             response = ollama.chat(model='llama3', messages=[
                 {
@@ -261,9 +265,7 @@ def oneStep():
         ])
         answers += response['message']['content'].split("\n")
 
-    print(answers)
     for i, a in enumerate(answers):
-        print("i ==", i, ", a == ", a)
         newA = ""
         for char in a:
             if char.isalpha():

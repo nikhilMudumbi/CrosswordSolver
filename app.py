@@ -15,6 +15,7 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
+    print("here!!!!")
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'}), 400
     file = request.files['file']
@@ -35,8 +36,8 @@ def upload_file():
 
 @app.route('/solve', methods=['POST'])
 def solve():
-    # This would need the grid to be sent in the request, for simplicity, just returning a dummy grid here
     initialize()
+    print('finished')
     solved_grid = stepSolver()
     solved_grid_list = solved_grid.tolist()
     print(solved_grid_list)
