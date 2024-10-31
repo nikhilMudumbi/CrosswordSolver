@@ -2,8 +2,8 @@
 
 this file implements many potential solving algorithms;
 only step and getAnswers are currently implemented -- I settled on a simpler
-iterative approach that relies on treating the answers from Llama3
-as an IID distribution (through specific prompts), and using frequency of words
+iterative approach that relies on treating the answers from Llama3 as drawn from
+an IID distribution (through specific prompts), and using frequency of words
 as an indicator of accuracy.
 
 '''
